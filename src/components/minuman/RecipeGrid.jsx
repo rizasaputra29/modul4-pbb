@@ -2,10 +2,12 @@
 import { Clock, Star, ChefHat } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 
-export default function RecipeGrid({ recipes }) {
+// Terima prop onViewDetail
+export default function RecipeGrid({ recipes, onViewDetail }) {
   const [visibleCards, setVisibleCards] = useState(new Set());
   const cardRefs = useRef([]);
 
+  // ... (Kode useEffect tetap sama)
   useEffect(() => {
     cardRefs.current = cardRefs.current.slice(0, recipes.length);
     
@@ -31,6 +33,7 @@ export default function RecipeGrid({ recipes }) {
       observer.disconnect();
     };
   }, [recipes]);
+  // ... (Akhir Kode useEffect)
 
   return (
     <section>
@@ -45,6 +48,8 @@ export default function RecipeGrid({ recipes }) {
           <div 
             key={recipe.id} 
             ref={el => cardRefs.current[index] = el}
+            // Tambahkan handler klik di sini
+            onClick={() => onViewDetail(recipe.id)}
             className={`group transform transition-all duration-700 ${
               visibleCards.has(index) 
                 ? 'translate-y-0 opacity-100' 
